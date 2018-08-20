@@ -11,5 +11,5 @@ public interface TaskRepository extends CrudRepository <Task, Long> {
 
     Task findBy();
 
-    Task deleteBy();
+    Task deleteBy(Long deleteTaskId);
 }
