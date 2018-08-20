@@ -20,7 +20,7 @@ public class DbService {
         return taskRepository.findBy();
     }
 
-    public Task deleteTaskId(){
+    public Task deleteTaskId(Long deleteTaskId){
         return taskRepository.deleteBy();
     }
 }
