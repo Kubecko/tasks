@@ -16,7 +16,11 @@ public class DbService {
         return taskRepository.findAll();
     }
 
-    public Task getByTask(){
+    public Task getByTaskId(){
         return taskRepository.findBy();
+    }
+
+    public Task deleteTaskId(){
+        return taskRepository.deleteBy();
     }
 }
