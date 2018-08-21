@@ -10,15 +10,13 @@ import java.util.List;
 @Service
 public class DbService {
     @Autowired
-    private TaskRepository taskRepository;
+    private TaskRepository repository;
 
     public List<Task> getAllTask(){
-        return taskRepository.findAll();
+        return repository.findAll();
     }
 
-    public Task getByTaskId(Long taskId){ return taskRepository.findById(taskId); }
-
-    public Task deleteTaskId(Long deleteTaskId){
-        return taskRepository.deleteById(deleteTaskId);
+    public Task getTaskId(final Long id){
+        return repository.findById(id);
     }
 }
