@@ -16,11 +16,9 @@ public class DbService {
         return taskRepository.findAll();
     }
 
-    public Task getByTaskId(){
-        return taskRepository.findBy();
-    }
+    public Task getByTaskId(Long taskId){ return taskRepository.findById(taskId); }
 
     public Task deleteTaskId(Long deleteTaskId){
-        return taskRepository.deleteBy(deleteTaskId);
+        return taskRepository.deleteById(deleteTaskId);
     }
 }

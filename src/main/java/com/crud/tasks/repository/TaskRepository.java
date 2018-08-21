@@ -9,7 +9,7 @@ public interface TaskRepository extends CrudRepository <Task, Long> {
     @Override
     List<Task> findAll();
 
-    Task findBy();
+    Task findById(Long id);
 
-    Task deleteBy(Long deleteTaskId);
+    Task deleteById(Long id);
 }
