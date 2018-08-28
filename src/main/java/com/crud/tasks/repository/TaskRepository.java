@@ -1,6 +1,7 @@
 package com.crud.tasks.repository;
 
 import com.crud.tasks.domain.Task;
+import com.crud.tasks.domain.TrelloBoardDto;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
