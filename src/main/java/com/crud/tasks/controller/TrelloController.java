@@ -27,6 +27,7 @@ public class TrelloController {
 
         List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
 
+
         trelloBoards.forEach(trelloBoardDto -> {
             System.out.println(trelloBoardDto.getName() + " - " + trelloBoardDto.getId());
 
