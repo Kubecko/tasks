@@ -1,15 +1,17 @@
 package com.crud.tasks.controller;
 
+import com.crud.tasks.domain.BadgesDto;
+import com.crud.tasks.domain.CreatedTrelloCard;
 import com.crud.tasks.domain.TrelloBoardDto;
+import com.crud.tasks.domain.TrelloCardDto;
 import com.crud.tasks.trello.client.TrelloClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
-
 
 
 @RestController
@@ -25,11 +27,25 @@ public class TrelloController {
 
         List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
 
-          trelloBoards.stream()
+        trelloBoards.forEach(trelloBoardDto -> {
+            System.out.println(trelloBoardDto.getName() + " - " + trelloBoardDto.getId());
+
+            System.out.println("This board contains lists: ");
+
+            trelloBoardDto.getLists().forEach(trelloList ->
+                    System.out.println(trelloList.getName() + " - " + trelloList.getId() + " - " + trelloList.isClosed()));
+        });
+
+          /*trelloBoards.stream()
                   .filter(t -> t.getName() != null)
                   .filter(t -> t.getId() != null)
                   .filter(t -> t.getName().contains("Kodilla"))
                   .forEach(trelloBoardDto -> System.out.println(trelloBoardDto.getId() + " "
-                  + trelloBoardDto.getName()));
+                  + trelloBoardDto.getName()));*/
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "createdTrelloCard")
+    public CreatedTrelloCard createTrelloCard(@RequestBody TrelloCardDto trelloCardDto, BadgesDto badgesDto) {
+        return trelloClient.createNewCard(trelloCardDto,badgesDto);
     }
 }
