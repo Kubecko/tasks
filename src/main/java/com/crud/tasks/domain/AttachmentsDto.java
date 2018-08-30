@@ -11,6 +11,6 @@ import lombok.Getter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AttachmentsDto {
 
-    @JsonProperty("board&card")
+    @JsonProperty("attachmentsByType")
     private TrelloDto trelloDto;
 }
