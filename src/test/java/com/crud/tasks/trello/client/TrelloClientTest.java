@@ -90,8 +90,7 @@ public class TrelloClientTest {
     @Test
     public void shouldReturnEmptyList() throws URISyntaxException {
         //Given
-        TrelloBoardDto[] trelloBoardDto = new TrelloBoardDto[1];
-        trelloBoardDto[0] = null;
+        TrelloBoardDto[] trelloBoardDto = null;
 
         URI uri = new URI("http://test.com/cards?key=test&token=test&name=Test%20task&desc=Test%20Description&pos=top&idList=test_id");
 
