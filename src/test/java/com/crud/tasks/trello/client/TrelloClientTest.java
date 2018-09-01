@@ -13,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -90,11 +89,11 @@ public class TrelloClientTest {
     @Test
     public void shouldReturnEmptyList() throws URISyntaxException {
         //Given
-        TrelloBoardDto[] trelloBoardDto = null;
+        //TrelloBoardDto[] trelloBoardDto = null;
 
         URI uri = new URI("http://test.com/cards?key=test&token=test&name=Test%20task&desc=Test%20Description&pos=top&idList=test_id");
 
-        when(restTemplate.getForObject(uri,TrelloBoardDto[].class)).thenReturn(trelloBoardDto);
+        when(restTemplate.getForObject(uri,TrelloBoardDto[].class)).thenReturn(null);
 
         //When
         List<TrelloBoardDto> shouldReturnEmptyList = trelloClient.getTrelloBoards();
