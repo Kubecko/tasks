@@ -47,7 +47,7 @@ public class TrelloClient {
         }
     }
 
-    public CreatedTrelloCard createNewCard(TrelloCardDto trelloCardDto, BadgesDto badgesDto){
+    public CreatedTrelloCard createNewCard(TrelloCardDto trelloCardDto){
         URI url = UriComponentsBuilder.fromHttpUrl(trelloConfig.getTrelloApiEndpoint() + "/cards")
                 .queryParam("key",trelloConfig.getTrelloAppKey())
                 .queryParam("token",trelloConfig.getTrelloToken())
@@ -55,8 +55,6 @@ public class TrelloClient {
                 .queryParam("desc",trelloCardDto.getDescription())
                 .queryParam("pos",trelloCardDto.getPos())
                 .queryParam("idList",trelloCardDto.getListId()).build().encode().toUri();
-                //.queryParam("votes",badgesDto.getVotes())
-                //.queryParam("attachmentsByType", badgesDto.getAttachmentsDto()).build().encode().toUri();
 
         return restTemplate.postForObject(url,null,CreatedTrelloCard.class);
     }
