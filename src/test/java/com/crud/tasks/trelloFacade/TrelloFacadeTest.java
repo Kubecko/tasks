@@ -92,4 +92,11 @@ public class TrelloFacadeTest {
             });
         });
     }
+    @Test
+    public void validatorTrelloCardTest() {
+        //Given
+        TrelloCard trelloCard = new TrelloCard("user1", "username", "9", "3");
+        //When & Then
+        trelloValidator.validatorCard(trelloCard);
+    }
 }

@@ -1,5 +1,6 @@
 package com.crud.tasks.trello.client;
 
+import com.crud.tasks.config.AdminConfig;
 import com.crud.tasks.domain.*;
 import com.crud.tasks.trello.config.TrelloConfig;
 import org.junit.Before;
@@ -104,5 +105,13 @@ public class TrelloClientTest {
         //Then
         assertNotNull(shouldReturnEmptyList);
         assertEquals(0,shouldReturnEmptyList.size());
+    }
+    @Test
+    public void adminConfigTest() {
+        //Given & When
+        AdminConfig adminConfig = new AdminConfig();
+        adminConfig.getAdminMail();
+        //Then
+        assertNotNull(adminConfig);
     }
 }
