@@ -1,7 +1,6 @@
 package com.crud.tasks.mapper;
 
 import com.crud.tasks.domain.*;
-import com.crud.tasks.trello.facade.TrelloFacade;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,7 +34,10 @@ public class TestTrelloMapper {
         //When
         List<TrelloBoardDto> dot = trelloMapper.mapToBoardsDto(trelloBoards);
         //Then
+        assertNotNull(dot);
         assertEquals(1,dot.size());
+        assertEquals("Marcin",dot.get(0).getName());
+        assertEquals("1",dot.get(0).getId());
     }
     @Test
     public void testMapToBoardsDto() {
@@ -51,7 +54,9 @@ public class TestTrelloMapper {
         List<TrelloBoard> dot = trelloMapper.mapToBoards(trelloBoardDtos);
         //Then
         System.out.println(dot.get(0).getId());
+        assertNotNull(dot);
         assertEquals("1",dot.get(0).getId());
+        assertEquals("Bartol",dot.get(0).getName());
     }
     @Test
     public void testMapToList() {
@@ -61,7 +66,10 @@ public class TestTrelloMapper {
         trelloLists.add(listDto);
         List<TrelloList> dot = trelloMapper.mapToList(trelloLists);
         //Then
+        assertNotNull(dot);
         assertEquals(1,dot.size());
+        assertEquals("1",dot.get(0).getId());
+        assertEquals("Bartoszek",dot.get(0).getName());
     }
     @Test
     public void testMapToListDto() {
@@ -72,7 +80,11 @@ public class TestTrelloMapper {
         //When
         List<TrelloListDto> dot = trelloMapper.mapToListDto(listsTrello);
         //Then
+        assertNotNull(dot);
         assertEquals(true,dot.get(0).isClosed());
+        assertEquals("Marcin",dot.get(0).getName());
+        assertEquals("1",dot.get(0).getId());
+
     }
     @Test
     public void testMapToCardDto() {
@@ -81,7 +93,11 @@ public class TestTrelloMapper {
         //When
         TrelloCardDto dot = trelloMapper.mapToCardDto(trelloCard);
         //Then
+        assertNotNull(dot);
         assertEquals("name",dot.getDescription());
+        assertEquals("4",dot.getListId());
+        assertEquals("Marcin",dot.getName());
+        assertEquals("3",dot.getPos());
     }
     @Test
     public void testMapToCard() {
@@ -90,6 +106,10 @@ public class TestTrelloMapper {
         //When
         TrelloCard dot = trelloMapper.mapToCard(trelloCardDto);
         //Then
+        assertNotNull(dot);
         assertEquals("Irenka",dot.getName());
+        assertEquals("username",dot.getDescription());
+        assertEquals("89",dot.getPos());
+        assertEquals("3",dot.getListId());
     }
 }

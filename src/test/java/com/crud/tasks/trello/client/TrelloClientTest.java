@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -49,13 +50,15 @@ public class TrelloClientTest {
         when(restTemplate.getForObject(uri,TrelloBoardDto[].class)).thenReturn(trelloBoards);
 
         //When
-        List<TrelloBoardDto> fetchedTRelloBoards = trelloClient.getTrelloBoards();
+        List<TrelloBoardDto> fetchedTrelloBoards = trelloClient.getTrelloBoards();
 
         //Then
-        assertEquals(1,fetchedTRelloBoards.size());
-        assertEquals("test_id", fetchedTRelloBoards.get(0).getId());
-        assertEquals("test_board", fetchedTRelloBoards.get(0).getName());
-        assertEquals(new ArrayList<>(), fetchedTRelloBoards.get(0).getLists());
+        assertNotNull(fetchedTrelloBoards);
+        assertNotNull(trelloBoards);
+        assertEquals(1,fetchedTrelloBoards.size());
+        assertEquals("test_id", fetchedTrelloBoards.get(0).getId());
+        assertEquals("test_board", fetchedTrelloBoards.get(0).getName());
+        assertEquals(new ArrayList<>(), fetchedTrelloBoards.get(0).getLists());
     }
 
     @Test
@@ -81,6 +84,7 @@ public class TrelloClientTest {
         CreatedTrelloCardDto newCard = trelloClient.createNewCard(trelloCardDto);
 
         //Then
+        assertNotNull(newCard);
         assertEquals("1",newCard.getId());
         assertEquals("Test task", newCard.getName());
         assertEquals("http://test.com", newCard.getShortUrl());
@@ -98,7 +102,7 @@ public class TrelloClientTest {
         //When
         List<TrelloBoardDto> shouldReturnEmptyList = trelloClient.getTrelloBoards();
         //Then
+        assertNotNull(shouldReturnEmptyList);
         assertEquals(0,shouldReturnEmptyList.size());
     }
-
 }
