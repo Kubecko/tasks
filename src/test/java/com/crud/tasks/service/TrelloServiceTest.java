@@ -1,53 +1,46 @@
 package com.crud.tasks.service;
 
 import com.crud.tasks.domain.*;
+import com.crud.tasks.trello.client.TrelloClient;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TrelloServiceTest {
-    @Autowired
+    @InjectMocks
     private TrelloService trelloService;
 
-    @Test
-    public void createdTrelloCardDtoTest() {
-        //Given
-        TrelloDto trelloDto = new TrelloDto(2, 5);
-        AttachmentsDto attachmentsDto = new AttachmentsDto(trelloDto);
-        BadgesDto badgesDto = new BadgesDto(100, attachmentsDto);
+    @Mock
+    private TrelloClient trelloClient;
 
-        CreatedTrelloCardDto cardDto =
-                new CreatedTrelloCardDto("1", "user", null, badgesDto);
-
-        assertEquals("user", cardDto.getName());
-        assertEquals("1", cardDto.getId());
-        assertEquals(null, cardDto.getShortUrl());
-        assertEquals(badgesDto, cardDto.getBadges());
-        assertEquals(attachmentsDto, cardDto.getBadges().getAttachmentsDto());
-        assertEquals(attachmentsDto.getTrelloDto(), cardDto.getBadges().getAttachmentsDto().getTrelloDto());
-        assertEquals(attachmentsDto.getTrelloDto().getBoard(),
-                cardDto.getBadges().getAttachmentsDto().getTrelloDto().getBoard());
-        assertEquals(attachmentsDto.getTrelloDto().getCard(), cardDto.getBadges().getAttachmentsDto().getTrelloDto().getCard());
-    }
-
+    @Mock
+    private SimpleEmailService emailService;
 
     @Test
     public void trelloServiceMethodOfFetchTrelloBoards() {
         //Given
         List<TrelloListDto> trelloListDto = new ArrayList<>();
         trelloListDto.add(new TrelloListDto("1","DtosList",false));
+
         List<TrelloBoardDto> trelloBoardDtos = new ArrayList<>();
         trelloBoardDtos.add(new TrelloBoardDto( "1","Dtos",trelloListDto));
-        //When //Then
-        trelloService.fetchTrelloBoards();
+        //When
+        when(trelloClient.getTrelloBoards()).thenReturn(trelloBoardDtos);
+
+        List<TrelloBoardDto> listBoard = trelloService.fetchTrelloBoards();
+        // Then
+        Assert.assertEquals(1,listBoard.size());
+        Assert.assertEquals(trelloBoardDtos,listBoard);
     }
 }

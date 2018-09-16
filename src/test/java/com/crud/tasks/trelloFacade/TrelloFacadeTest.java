@@ -35,16 +35,16 @@ public class TrelloFacadeTest {
     public void shouldFetchEmptyList() {
         //Given
         List<TrelloListDto> trelloLists = new ArrayList<>();
-        trelloLists.add(new TrelloListDto("1","test_list",false));
+        trelloLists.add(new TrelloListDto("1", "test_list", false));
 
         List<TrelloBoardDto> trelloBoards = new ArrayList<>();
-        trelloBoards.add(new TrelloBoardDto("1","test",trelloLists));
+        trelloBoards.add(new TrelloBoardDto("1", "test", trelloLists));
 
         List<TrelloList> mappedTrelloLists = new ArrayList<>();
-        mappedTrelloLists.add(new TrelloList("1","test_list", false));
+        mappedTrelloLists.add(new TrelloList("1", "test_list", false));
 
         List<TrelloBoard> mappedTrelloBoard = new ArrayList<>();
-        mappedTrelloBoard.add(new TrelloBoard("1","test",mappedTrelloLists));
+        mappedTrelloBoard.add(new TrelloBoard("1", "test", mappedTrelloLists));
 
         when(trelloService.fetchTrelloBoards()).thenReturn(trelloBoards);
         when(trelloMapper.mapToBoards(trelloBoards)).thenReturn(mappedTrelloBoard);
@@ -54,8 +54,9 @@ public class TrelloFacadeTest {
         List<TrelloBoardDto> trelloBoardDtos = trelloFacade.fetchTrelloBoards();
         //Then
         assertNotNull(trelloBoardDtos);
-        assertEquals(0,trelloBoardDtos.size());
+        assertEquals(0, trelloBoardDtos.size());
     }
+
     @Test
     public void shouldFetchTrelloBoards() {
         //Given
@@ -92,11 +93,19 @@ public class TrelloFacadeTest {
             });
         });
     }
+
     @Test
-    public void validatorTrelloCardTest() {
+    public void createCardTest() {
         //Given
-        TrelloCard trelloCard = new TrelloCard("user1", "username", "9", "3");
-        //When & Then
-        trelloValidator.validatorCard(trelloCard);
+        TrelloCardDto trelloCardDto = new TrelloCardDto("name", "desc", "1", "2");
+        TrelloCard trelloCard = new TrelloCard("name","desc","2","2");
+        CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto("1","name","http://test.com",null);
+        //When
+        when(trelloMapper.mapToCard(trelloCardDto)).thenReturn(trelloCard);
+        when(trelloMapper.mapToCardDto(trelloCard)).thenReturn(trelloCardDto);
+        when(trelloService.createTrelloCard(trelloCardDto)).thenReturn(createdTrelloCardDto);
+        //Then
+        CreatedTrelloCardDto createCard = trelloFacade.createCard(trelloCardDto);
+        assertEquals(createdTrelloCardDto,createCard);
     }
 }

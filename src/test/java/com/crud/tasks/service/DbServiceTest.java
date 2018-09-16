@@ -20,34 +20,38 @@ public class DbServiceTest {
     private DbService dbService;
 
     @Test
-    public void dbServiceMethodAllTaskAndGetTaskIdTest() {
-        //Given //When
+    public void dbServiceMethodAllTask() {
+        //Given & When
         List<Task> dbList = dbService.getAllTask();
-        Optional<Task> dbList2 = dbService.getTaskId((long) 2);
         //Then
         assertNotNull(dbList);
+        assertEquals(1, dbList.size());
+        assertEquals("Updated Task", dbList.get(0).getTitle());
+        assertEquals("Updated Description", dbList.get(0).getContent());
+        assertEquals((long) 5, dbList.get(0).getId(), 0);
+    }
+
+    @Test
+    public void getTaskIdTest() {
+        //Given & When
+        Optional<Task> dbList2 = dbService.getTaskId((long) 2);
+        //Then
         assertNotNull(dbList2);
-        assertEquals(8, dbList.size());
-        assertEquals("First Test", dbList.get(0).getTitle());
-        assertEquals("I need to be great coder!!!", dbList.get(1).getContent());
-        assertEquals((long) 4, dbList.get(0).getId(), 0);
     }
 
     @Test
     public void dbServiceMethodSaveTaskTest() {
         //Given
-        Task task = new Task((long) 1, "null", "nullContent");
+        Task task = new Task( (long) 1, "null", "nullContent");
         //When
         Task saveTask = dbService.saveTask(task);
-        //Then
-        assertNotNull(saveTask);
-        assertEquals("null", task.getTitle());
-        assertEquals((long) 1, task.getId(), 0);
-        assertEquals("nullContent", task.getContent());
-        try {
-            dbService.deleteTaskId(saveTask.getId());
-        } catch (Exception e) {
 
-        }
+        long id = saveTask.getId();
+        //Then
+        assertNotNull(task);
+        assertEquals("null", saveTask.getTitle());
+        assertEquals("nullContent", saveTask.getContent());
+        //Clean up
+        dbService.deleteTaskId(id);
     }
 }
