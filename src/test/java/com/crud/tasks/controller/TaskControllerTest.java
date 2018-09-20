@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
@@ -44,14 +45,11 @@ public class TaskControllerTest {
     @MockBean
     private TaskRepository repository;
 
-    @MockBean
-    private TaskController taskController;
-
     @Test
     public void shouldFetchEmptyTasks() throws Exception {
         //Given
         List<TaskDto> taskDtos = new ArrayList<>();
-        //when(taskController.getTasks()).thenReturn(taskDtos); Why not like that?
+
         when(taskMapper.mapToTaskDtoList(any())).thenReturn(taskDtos);
 
         //When & Then
@@ -64,17 +62,49 @@ public class TaskControllerTest {
     public void shouldFetchTasks() throws Exception {
         List<TaskDto> dtos = new ArrayList<>();
         dtos.add(new TaskDto((long) 1, "task1", "content1"));
+        dtos.add(new TaskDto((long) 2, "task2", "content2"));
 
-        when(taskController.getTasks()).thenReturn(dtos);
+        when(taskMapper.mapToTaskDtoList(any())).thenReturn(dtos);
 
         //When & Then
-        mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/task/getTasks").param("?taskId", "1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 //Task list fields
-                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].title", is("task1")))
                 .andExpect(jsonPath("$[0].content", is("content1")));
+    }
+
+    @Test
+    public void shouldFetchTask() throws Exception {
+        //Given
+        TaskDto taskDto = new TaskDto((long) 1, "taskDto", "contentDto");
+        Task task = new Task((long) 1, "task", "content");
+
+        when(service.getTaskId(task.getId())).thenReturn(Optional.of(task));
+        when(taskMapper.mapToTaskDto(task)).thenReturn(taskDto);
+
+        //When & Then
+        mockMvc.perform(get("/v1/task/getTask?taskId=1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(1)));
+
+    }
+    @Test(expected = TaskNotFoundException.class)
+    public void shouldFetchTaskFoundException() throws Exception {
+        //Given
+        Task taskNull = new Task(null,"taskNull","contetnNull");
+        TaskDto taskDtoNull = new TaskDto(null,"taskNull","contetnNull");
+
+        when(service.getTaskId(taskNull.getId())).thenThrow(TaskNotFoundException.class);
+        when(service.getTaskId(taskNull.getId())).thenReturn(Optional.of(taskNull));
+        when(taskMapper.mapToTaskDto(taskNull)).thenReturn(taskDtoNull);
+
+        //When & Then
+        mockMvc.perform(get("/v1/task/getTask?taskId=1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$",is(0)));
     }
 
     @Test
@@ -109,15 +139,15 @@ public class TaskControllerTest {
         //When & Then
         verify(repository, times(0)).save(any(Task.class));
     }
+
     @Test
     public void shouldDeleteFetchTask() throws Exception {
         //Given
         List<Task> listTask = new ArrayList<>();
-        listTask.add(new Task((long)1,"task1","content1"));
-        listTask.add(new Task((long)2,"task2","content2"));
+        listTask.add(new Task((long) 1, "task1", "content1"));
+        listTask.add(new Task((long) 2, "task2", "content2"));
 
         //When & Then
-        verify(service,times(0)).deleteTaskId(listTask.get(1).getId());
+        verify(service, times(0)).deleteTaskId(listTask.get(1).getId());
     }
-
 }
