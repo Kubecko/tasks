@@ -5,11 +5,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
+import org.springframework.mail.MailMessage;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class SimpleEmailService {
@@ -25,8 +29,8 @@ public class SimpleEmailService {
     public void send(final Mail mail){
         LOGGER.info("Starting email preparation...");
        try {
-           //SimpleMailMessage mailMessage = createMailMessage(mail);
-           javaMailSender.send(createMimeMessage(mail));
+           MimeMessagePreparator mailMessage = createMimeMessage(mail);
+           javaMailSender.send(mailMessage);
            LOGGER.info("Email has been sent.");
          }catch(MailException e) {
             LOGGER.error("Failed to process email sending: ", e.getMessage(), e);

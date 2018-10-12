@@ -25,7 +25,7 @@ public class DbServiceTest {
         List<Task> dbList = dbService.getAllTask();
         //Then
         assertNotNull(dbList);
-        assertEquals(1, dbList.size());
+        assertEquals(2, dbList.size());
         assertEquals("Updated Task", dbList.get(0).getTitle());
         assertEquals("Updated Description", dbList.get(0).getContent());
         assertEquals((long) 5, dbList.get(0).getId(), 0);
