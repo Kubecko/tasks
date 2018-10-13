@@ -34,7 +34,7 @@ public class SimpleEmailService {
         }
     }
 
-    private MimeMessagePreparator createMimeMessage(final Mail mail) {
+    public MimeMessagePreparator createMimeMessage(final Mail mail) {
         return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(mail.getMailTo());
@@ -43,7 +43,7 @@ public class SimpleEmailService {
         };
     }
 
-    private SimpleMailMessage createMailMessage(final Mail mail){
+    public SimpleMailMessage createMailMessage(final Mail mail){
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());

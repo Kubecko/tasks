@@ -26,9 +26,9 @@ public class DbServiceTest {
         //Then
         assertNotNull(dbList);
         assertEquals(2, dbList.size());
-        assertEquals("Updated Task", dbList.get(0).getTitle());
-        assertEquals("Updated Description", dbList.get(0).getContent());
-        assertEquals((long) 5, dbList.get(0).getId(), 0);
+        assertEquals("Test mail", dbList.get(0).getTitle());
+        assertEquals("Test mail message!!!", dbList.get(0).getContent());
+        assertEquals((long) 77, dbList.get(0).getId(), 0);
     }
 
     @Test
