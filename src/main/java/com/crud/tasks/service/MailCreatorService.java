@@ -37,7 +37,7 @@ public class MailCreatorService {
         context.setVariable("show_button", false);
         context.setVariable("is_friend" , false);
         context.setVariable("admin_config" , adminConfig);
-        context.setVariable("application_functionality", functionality );
+        context.setVariable("application_functionality", functionality);
         return templateEngine.process("mail/created-trello-card-mail",context );
     }
 }

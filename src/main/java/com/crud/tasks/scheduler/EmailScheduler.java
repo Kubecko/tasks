@@ -22,14 +22,14 @@ public class EmailScheduler {
     @Autowired
     private AdminConfig adminConfig;
 
-    @Scheduled(fixedDelay = 100000)
+    @Scheduled(cron = "0 0 12 * * *")
     public void sendInformationEmail(){
         String countTask;
         long size = taskRepository.count();
         if(size == 1) {
-            countTask = " task";
+            countTask = " task ";
         } else {
-            countTask = " tasks";
+            countTask = " tasks ";
         }
             simpleEmailService.send(new Mail(
                     adminConfig.getAdminMail(),
