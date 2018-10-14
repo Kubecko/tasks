@@ -62,7 +62,7 @@ public class TaskControllerTest {
         when(taskMapper.mapToTaskDtoList(any())).thenReturn(dtos);
 
         //When & Then
-        mockMvc.perform(get("/v1/tasks").param("?taskId", "1").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 //Task list fields
                 .andExpect(jsonPath("$", hasSize(2)))
